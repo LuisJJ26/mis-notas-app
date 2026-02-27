@@ -1,0 +1,42 @@
+<!-- templates/notes/note_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Mis Notas{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-12">
+        <h2>📚 Mis Notas</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    {% if notes %}
+        {% for note in notes %}
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ note.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            {{ note.created_at|date:"d/m/Y H:i" }}
+                        </h6>
+                        <p class="card-text">{{ note.content|truncatewords:30 }}</p>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'note_detail' note.pk %}" class="btn btn-sm btn-outline-primary">Ver</a>
+                            <a href="{% url 'note_update' note.pk %}" class="btn btn-sm btn-outline-success">Editar</a>
+                            <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No tienes notas aún. ¡<a href="{% url 'note_create' %}">Crea tu primera nota</a>!
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
